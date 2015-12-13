@@ -4,7 +4,8 @@ module RuCaptcha
   class Captcha
     class << self
       def rand_color
-        [rand(100).to_s(8), rand(100).to_s(8), rand(100).to_s(8)]
+#        [rand(100).to_s(8), rand(100).to_s(8), rand(100).to_s(8)]
+        ["255","255","255"]
       end
 
       def random_chars
@@ -20,7 +21,7 @@ module RuCaptcha
       # Create Captcha image by code
       def create(code)
         chars        = code.split('')
-        all_left     = 20
+        all_left     = 60 #20
         font_size    = RuCaptcha.config.font_size
         full_height  = font_size
         full_width   = (font_size * chars.size)
@@ -29,7 +30,7 @@ module RuCaptcha
         full_height  = full_height
         half_height  = full_height / 2
         text_top     = 10
-        text_left    = 0 - (font_size * 0.28).to_i
+        text_left    = 10 - (font_size * 0.28).to_i  #0 - (font_size * 0.28).to_i 
         stroke_width  = (font_size * 0.08).to_i + 1
         text_width   = (full_width / chars.size) + text_left
         label = "=#{' ' * (chars.size - 1)}="
@@ -50,6 +51,7 @@ module RuCaptcha
 
         command = <<-CODE
           convert -size #{size} \
+          -background black \
           -strokewidth #{stroke_width} \
           #{line_opts.join(' ')} \
           -pointsize #{font_size} -weight 500 \
